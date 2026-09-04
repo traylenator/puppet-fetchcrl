@@ -37,14 +37,14 @@ describe 'fetchcrl', type: 'class' do
               is_expected.to contain_apt__source('carepo').with(
                 {
                   'location' => ['https://repository.egi.eu/sw/production/cas/1/current/'],
-                  'keyring'  => ['/etc/apt/keyrings/carepo.gpg'],
+                  'keyring'  => ['/etc/apt/keyrings/carepo.asc'],
                 },
               )
               is_expected.to contain_apt__source('carepo').without_key
             }
 
             it {
-              is_expected.to contain_apt__keyring('carepo.gpg').with_source('https://repository.egi.eu/sw/production/cas/1/current/GPG-KEY-EUGridPMA-RPM-4R1')
+              is_expected.to contain_apt__keyring('carepo.asc').with_source('https://repository.egi.eu/sw/production/cas/1/current/GPG-KEY-EUGridPMA-RPM-4R1')
             }
           end
 
@@ -111,14 +111,14 @@ describe 'fetchcrl', type: 'class' do
               expect(subject).to contain_apt__source('carepo').with(
                 {
                   'location' => ['https://example.org/foo'],
-                  'keyring'  => ['/etc/apt/keyrings/carepo.gpg'],
+                  'keyring'  => ['/etc/apt/keyrings/carepo.asc'],
                 },
               )
               expect(subject).to contain_apt__source('carepo').without_key
             }
 
             it {
-              expect(subject).to contain_apt__keyring('carepo.gpg').with_source('https://example.org/foo.gpg')
+              expect(subject).to contain_apt__keyring('carepo.asc').with_source('https://example.org/foo.gpg')
             }
           end
         when 'RedHat'

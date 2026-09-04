@@ -69,9 +69,9 @@ class fetchcrl::install (
           $_release       = ['egi-igtf']
           $_repos         = ['core']
           $_key           = undef
-          $_keyring       = '/etc/apt/keyrings/carepo.gpg'
+          $_keyring       = '/etc/apt/keyrings/carepo.asc'
 
-          apt::keyring { 'carepo.gpg':
+          apt::keyring { 'carepo.asc':
             source => $carepo_gpgkey,
             before => Apt::Source['carepo'],
           }
