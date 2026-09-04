@@ -21,14 +21,32 @@ describe 'fetchcrl', type: 'class' do
 
         case facts[:os]['family']
         when 'Debian'
-          it {
-            expect(subject).to contain_apt__source('carepo').with(
-              {
-                location: 'https://repository.egi.eu/sw/production/cas/1/current/',
-                key: { 'ensure' => 'refreshed', 'id' => '565F4528EAD3F53727B5A2E9B055005676341F1A', 'source' => 'https://repository.egi.eu/sw/production/cas/1/current/GPG-KEY-EUGridPMA-RPM-4R1' },
-              },
-            )
-          }
+          case [facts[:os]['name'], facts[:os]['release']['major']]
+          when %w[Debian 11], %w[Debian 12], ['Ubuntu', '22.04'], ['Ubuntu', '24.04']
+            it {
+              is_expected.to contain_apt__source('carepo').with(
+                {
+                  'location' => 'https://repository.egi.eu/sw/production/cas/1/current/',
+                  'key'      => { 'ensure' => 'refreshed', 'id' => '565F4528EAD3F53727B5A2E9B055005676341F1A', 'source' => 'https://repository.egi.eu/sw/production/cas/1/current/GPG-KEY-EUGridPMA-RPM-4R1' },
+                },
+              )
+              is_expected.to contain_apt__source('carepo').without_keyring
+            }
+          else
+            it {
+              is_expected.to contain_apt__source('carepo').with(
+                {
+                  'location' => ['https://repository.egi.eu/sw/production/cas/1/current/'],
+                  'keyring'  => ['/etc/apt/keyrings/carepo.gpg'],
+                },
+              )
+              is_expected.to contain_apt__source('carepo').without_key
+            }
+
+            it {
+              is_expected.to contain_apt__keyring('carepo.gpg').with_source('https://repository.egi.eu/sw/production/cas/1/current/GPG-KEY-EUGridPMA-RPM-4R1')
+            }
+          end
 
           it { is_expected.not_to contain_yumrepo('carepo') }
         else
@@ -77,14 +95,32 @@ describe 'fetchcrl', type: 'class' do
 
         case facts[:os]['family']
         when 'Debian'
-          it {
-            expect(subject).to contain_apt__source('carepo').with(
-              {
-                location: 'https://example.org/foo',
-                key: { 'ensure' => 'refreshed', 'id' => '565F4528EAD3F53727B5A2E9B055005676341F1A', 'source' => 'https://example.org/foo.gpg' },
-              },
-            )
-          }
+          case [facts[:os]['name'], facts[:os]['release']['major']]
+          when %w[Debian 11], %w[Debian 12], ['Ubuntu', '22.04'], ['Ubuntu', '24.04']
+            it {
+              expect(subject).to contain_apt__source('carepo').with(
+                {
+                  'location' => 'https://example.org/foo',
+                  'key'      => { 'ensure' => 'refreshed', 'id' => '565F4528EAD3F53727B5A2E9B055005676341F1A', 'source' => 'https://example.org/foo.gpg' },
+                },
+              )
+              expect(subject).to contain_apt__source('carepo').without_keyring
+            }
+          else
+            it {
+              expect(subject).to contain_apt__source('carepo').with(
+                {
+                  'location' => ['https://example.org/foo'],
+                  'keyring'  => ['/etc/apt/keyrings/carepo.gpg'],
+                },
+              )
+              expect(subject).to contain_apt__source('carepo').without_key
+            }
+
+            it {
+              expect(subject).to contain_apt__keyring('carepo.gpg').with_source('https://example.org/foo.gpg')
+            }
+          end
         when 'RedHat'
           it {
             expect(subject).to contain_yumrepo('carepo').with(

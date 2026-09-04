@@ -51,17 +51,41 @@ class fetchcrl::install (
         $capkgs_require = Yumrepo['carepo']
       }
       'Debian': {
-        apt::source { 'carepo':
-          ensure        => 'present',
-          comment       => 'IGTF CA Repository',
-          location      => $carepo,
-          key           => {
+        if ($facts['os']['name'] == 'Debian' and versioncmp($facts['os']['release']['major'],'12') <= 0 ) or
+        ($facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['major'],'24.04') <= 0 ) {
+          $_source_format = 'list'
+          $_location      = $carepo
+          $_release       = 'egi-igtf'
+          $_repos         = 'core'
+          $_key           = {
             ensure => refreshed,
             id     => '565F4528EAD3F53727B5A2E9B055005676341F1A',
             source => $carepo_gpgkey,
-          },
-          release       => 'egi-igtf',
-          repos         => 'core',
+          }
+          $_keyring = undef
+        } else { # deb822
+          $_source_format = 'sources'
+          $_location      = [$carepo]
+          $_release       = ['egi-igtf']
+          $_repos         = ['core']
+          $_key           = undef
+          $_keyring       = '/etc/apt/keyrings/carepo.gpg'
+
+          apt::keyring { 'carepo.gpg':
+            source => $carepo_gpgkey,
+            before => Apt::Source['carepo'],
+          }
+        }
+
+        apt::source { 'carepo':
+          ensure        => 'present',
+          comment       => 'IGTF CA Repository',
+          location      => $_location,
+          source_format => $_source_format,
+          key           => $_key,
+          keyring       => $_keyring,
+          release       => $_release,
+          repos         => $_repos,
           notify_update => true,
         }
         $capkgs_require = Apt::Source['carepo']
