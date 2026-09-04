@@ -15,6 +15,7 @@ class fetchcrl::config (
   Enum['direct','qualified','cache','syslog'] $logmode = $fetchcrl::logmode,
   String[1] $pkgname                                   = $fetchcrl::pkgname,
   Optional[Integer] $cache_control_request             = $fetchcrl::cache_control_request,
+  Optional[Enum['dual','single']] $opensslmode         = $fetchcrl::opensslmode,
   Optional[Hash] $cas                                  = $fetchcrl::cas,
 ) {
   assert_private()
@@ -40,6 +41,7 @@ class fetchcrl::config (
       'parallelism'           => $parallelism,
       'logmode'               => $logmode,
       'cache_control_request' => $cache_control_request,
+      'opensslmode'           => $opensslmode,
     }),
     mode    => '0644',
     owner   => root,
