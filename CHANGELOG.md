@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v9.0.0](https://github.com/voxpupuli/puppet-fetchcrl/tree/v9.0.0) (2026-09-06)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-fetchcrl/compare/v8.0.0...v9.0.0)
+
+**Breaking changes:**
+
+- Drop puppet, update openvox minimum version to 8.19 [\#128](https://github.com/voxpupuli/puppet-fetchcrl/pull/128) ([TheMeier](https://github.com/TheMeier))
+
+**Implemented enhancements:**
+
+- Support Ubuntu 26.04 [\#138](https://github.com/voxpupuli/puppet-fetchcrl/pull/138) ([traylenator](https://github.com/traylenator))
+- Addition of opensslmode parameter [\#137](https://github.com/voxpupuli/puppet-fetchcrl/pull/137) ([traylenator](https://github.com/traylenator))
+- Support Debian 13, EL10  and Fedora 44 [\#136](https://github.com/voxpupuli/puppet-fetchcrl/pull/136) ([traylenator](https://github.com/traylenator))
+- Allow puppetlabs/apt 10.x [\#125](https://github.com/voxpupuli/puppet-fetchcrl/pull/125) ([smortex](https://github.com/smortex))
+
 ## [v8.0.0](https://github.com/voxpupuli/puppet-fetchcrl/tree/v8.0.0) (2025-05-08)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fetchcrl/compare/v7.0.0...v8.0.0)
