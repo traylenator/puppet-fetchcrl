@@ -82,6 +82,10 @@
 #  With osfamily RedHat 8 or newer the randomcron parameter is ignored.
 #  The systemd timer for fetch-crl is already very random.
 #
+# @param opensslmode
+#  Specify if the trust anchor should be written once or a second time with the
+#  legacy hashing algorithm.
+#
 # @param cache_control_request
 #  Sends a cache-control max-age hint in seconds towards the server in the HTTP request.
 #
@@ -108,6 +112,7 @@ class fetchcrl (
   String[1] $pkgname                       = 'fetch-crl',
   Boolean $runcron                         = true,
   Optional[Integer] $cache_control_request = undef,
+  Optional[Enum['dual','single']] $opensslmode = undef,
   Optional[Hash] $cas                      = undef,
 ) {
   contain 'fetchcrl::install'

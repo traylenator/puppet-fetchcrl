@@ -8,7 +8,8 @@
   Integer $httptimeout,
   Integer $parallelism,
   Enum['direct','qualified','cache','syslog'] $logmode,
-  Optional[Integer] $cache_control_request = undef, 
+  Optional[Integer] $cache_control_request = undef,
+  Optional[Enum['dual','single']] $opensslmode = undef,
 | %>
 # fetch-crl.conf file installed with puppet.
 #
@@ -35,6 +36,9 @@ parallelism = <%= $parallelism %>
 logmode = <%= $logmode %>
 <% if $cache_control_request  {-%>
 cache_control_request = <%= $cache_control_request %>
+<% } -%>
+<% if $opensslmode { -%>
+opensslmode = <%= $opensslmode %>
 <% } -%>
 
 # end of fetch-crl3.conf  managed by puppet.

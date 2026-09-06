@@ -80,6 +80,7 @@ The following parameters are available in the `fetchcrl` class:
 * [`pkgname`](#-fetchcrl--pkgname)
 * [`runcron`](#-fetchcrl--runcron)
 * [`randomcron`](#-fetchcrl--randomcron)
+* [`opensslmode`](#-fetchcrl--opensslmode)
 * [`cache_control_request`](#-fetchcrl--cache_control_request)
 * [`cas`](#-fetchcrl--cas)
 
@@ -228,6 +229,15 @@ With osfamily RedHat 8 or newer the randomcron parameter is ignored.
 The systemd timer for fetch-crl is already very random.
 
 Default value: `true`
+
+##### <a name="-fetchcrl--opensslmode"></a>`opensslmode`
+
+Data type: `Optional[Enum['dual','single']]`
+
+Specify if the trust anchor should be written once or a second time with the
+legacy hashing algorithm.
+
+Default value: `undef`
 
 ##### <a name="-fetchcrl--cache_control_request"></a>`cache_control_request`
 
